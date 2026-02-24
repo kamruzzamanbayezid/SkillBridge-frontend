@@ -1,133 +1,123 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Menu } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { getUser } from "@/services/auth";
 
-const navLinks = [
-  { name: "Home", href: "/" },
-  { name: "Tutors", href: "/tutors" },
-  { name: "Categories", href: "/categories" },
-  { name: "Dashboard", href: "/dashboard" },
-];
+const Navbar = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-export default function Navbar() {
-  const pathname = usePathname();
-  const [user, setUser] = useState(null);
-
-  // get current user
+  // স্ক্রল করলে নেভবার স্টাইল পরিবর্তন হবে
   useEffect(() => {
-    const getCurrentUser = async () => {
-      const userData = await getUser();
-      setUser(userData);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
     };
-    getCurrentUser();
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        {/* Logo */}
-        <Link href="/" className="text-xl font-bold tracking-tight">
-          SkillBridge
-        </Link>
+    <nav
+      className={`fixed w-full z-50 transition-all duration-300 ${
+        isScrolled
+          ? "bg-white/80 backdrop-blur-md shadow-sm py-3"
+          : "bg-transparent py-5"
+      }`}
+    >
+      <div className="container mx-auto px-6 lg:px-12">
+        <div className="flex items-center justify-between">
+          {/* ১. লোগো */}
+          <div className="flex items-center gap-2">
+            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
+              <span className="text-white font-bold text-xl">S</span>
+            </div>
+            <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700">
+              SkillBridge
+            </span>
+          </div>
 
-        {/* Desktop Nav */}
-        <nav className="hidden items-center gap-6 md:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cn(
-                "text-sm font-medium transition-colors hover:text-primary",
-                pathname === link.href
-                  ? "text-primary"
-                  : "text-muted-foreground",
-              )}
+          {/* ২. ডেস্কটপ মেনু */}
+          <div className="hidden lg:flex items-center gap-8">
+            {["Find Tutors", "Courses", "Become a Tutor", "About Us"].map(
+              (item) => (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase().replace(/\s+/g, "-")}`}
+                  className="text-slate-600 hover:text-blue-600 font-medium transition-colors"
+                >
+                  {item}
+                </a>
+              ),
+            )}
+          </div>
+
+          {/* ৩. একশন বাটন (Login/Register) */}
+          <div className="hidden lg:flex items-center gap-4">
+            <button className="text-slate-700 font-semibold px-4 py-2 hover:text-blue-600 transition-colors">
+              Sign In
+            </button>
+            <button className="bg-slate-900 text-white px-6 py-2.5 rounded-xl font-semibold hover:bg-blue-600 transition-all shadow-md active:scale-95">
+              Get Started
+            </button>
+          </div>
+
+          {/* ৪. মোবাইল মেনু বাটন (Hamburger) */}
+          <div className="lg:hidden">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="p-2 text-slate-600"
             >
-              {link.name}
-            </Link>
-          ))}
-        </nav>
-
-        {/* Right Side */}
-        <div className="hidden items-center gap-4 md:flex">
-          <Button variant="outline" size="sm" asChild>
-            <Link href="/login">Login</Link>
-          </Button>
-
-          <Button size="sm" asChild>
-            <Link href="/register">Sign Up</Link>
-          </Button>
-
-          {/* Profile Dropdown (Optional when logged in) */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-5 w-5" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem asChild>
-                <Link href="/profile">Profile</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/settings">Settings</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>Logout</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                {isMenuOpen ? (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                ) : (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16m-7 6h7"
+                  />
+                )}
+              </svg>
+            </button>
+          </div>
         </div>
 
-        {/* Mobile Nav */}
-        <div className="md:hidden">
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-5 w-5" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="w-64">
-              <div className="mt-8 flex flex-col gap-6 px-4">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={cn(
-                      "text-base font-medium transition-colors hover:text-primary",
-                      pathname === link.href
-                        ? "text-primary"
-                        : "text-muted-foreground",
-                    )}
-                  >
-                    {link.name}
-                  </Link>
-                ))}
-
-                <div className="flex flex-col gap-3 pt-6">
-                  <Button variant="outline" asChild>
-                    <Link href="/login">Login</Link>
-                  </Button>
-                  <Button asChild>
-                    <Link href="/register">Sign Up</Link>
-                  </Button>
-                </div>
-              </div>
-            </SheetContent>
-          </Sheet>
-        </div>
+        {/* ৫. মোবাইল ড্রপডাউন মেনু */}
+        {isMenuOpen && (
+          <div className="lg:hidden absolute top-full left-0 w-full bg-white border-t border-slate-100 shadow-xl py-6 px-6 flex flex-col gap-4 animate-in slide-in-from-top duration-300">
+            <a href="#" className="text-lg font-medium text-slate-700">
+              Find Tutors
+            </a>
+            <a href="#" className="text-lg font-medium text-slate-700">
+              Courses
+            </a>
+            <a href="#" className="text-lg font-medium text-slate-700">
+              Become a Tutor
+            </a>
+            <hr className="border-slate-100" />
+            <div className="flex flex-col gap-3">
+              <button className="w-full py-3 text-slate-700 font-semibold border border-slate-200 rounded-xl">
+                Sign In
+              </button>
+              <button className="w-full py-3 bg-blue-600 text-white font-semibold rounded-xl">
+                Get Started
+              </button>
+            </div>
+          </div>
+        )}
       </div>
-    </header>
+    </nav>
   );
-}
+};
+
+export default Navbar;

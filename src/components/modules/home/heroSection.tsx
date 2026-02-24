@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const HeroSEction = () => {
   return (
-    <div className="relative bg-[#F8FAFC] overflow-hidden min-h-[90vh] flex items-center">
+    <div className="relative bg-[#F8FAFC] overflow-hidden min-h-[90vh] flex items-center pt-24">
       <div className="container mx-auto px-6 lg:px-12 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Column: Text Content */}
