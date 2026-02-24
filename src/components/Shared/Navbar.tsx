@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import { getUser } from "@/services/auth";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -22,6 +24,18 @@ const navLinks = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const [user, setUser] = useState(null);
+
+  // get current user
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      const userData = await getUser();
+      setUser(userData);
+    };
+    getCurrentUser();
+  }, []);
+
+  console.log({ user });
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
