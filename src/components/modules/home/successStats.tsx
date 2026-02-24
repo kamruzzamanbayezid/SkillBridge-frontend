@@ -41,7 +41,7 @@ const SuccessStats = () => {
                 Our Impact in Numbers
               </h2>
               <p className="text-slate-400 leading-relaxed">
-                We take pride in the community we've built. From first-time
+                We take pride in the community we&apos;ve built. From first-time
                 learners to industry experts, everyone finds a home at
                 SkillBridge.
               </p>

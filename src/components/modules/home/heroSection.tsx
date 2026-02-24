@@ -34,7 +34,7 @@ const HeroSection = () => {
 
             <h1 className="text-5xl lg:text-7xl font-extrabold text-slate-900 leading-[1.1] mb-6">
               Master New Skills with{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-indigo-600">
                 Expert Tutors.
               </span>
             </h1>
@@ -87,7 +87,7 @@ const HeroSection = () => {
           <div className="relative order-1 lg:order-2 flex justify-center items-center">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-blue-600/5 rounded-full blur-3xl"></div>
 
-            <div className="relative w-full max-w-[500px] aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500 border-[12px] border-white bg-white">
+            <div className="relative w-full max-w-125 aspect-4/5 rounded-[2.5rem] overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500 border-12 border-white bg-white">
               <Image
                 src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
                 alt="Student learning"
