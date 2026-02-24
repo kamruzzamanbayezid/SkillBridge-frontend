@@ -35,8 +35,6 @@ export default function Navbar() {
     getCurrentUser();
   }, []);
 
-  console.log({ user });
-
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
@@ -101,7 +99,7 @@ export default function Navbar() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-64">
-              <div className="mt-8 flex flex-col gap-6">
+              <div className="mt-8 flex flex-col gap-6 px-4">
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
