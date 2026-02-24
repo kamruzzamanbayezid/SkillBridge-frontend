@@ -31,11 +31,13 @@ export const getUser = async () => {
   let decodedData = null;
   if (token) {
     decodedData = await jwtDecode(token);
-      console.log({ decodedData });
     return decodedData;
   } else {
     return null;
   }
+};
 
-
+export const UserLogOut = async () => {
+  const storeCookie = await cookies();
+  storeCookie.delete("token");
 };
