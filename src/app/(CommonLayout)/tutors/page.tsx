@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Search, Filter } from "lucide-react";
-import { getCategories, getTutors } from "@/services/tutor/tutor.service";
+import { getCategories, getTutors } from "@/services/tutor";
 import TutorCard from "@/components/modules/tutor/tutorCard";
 import { ICategory, ITutorResponse } from "@/types/tutor.type";
 

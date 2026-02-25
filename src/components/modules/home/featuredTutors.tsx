@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { USER_ROLE } from "@/types/user";
-import { getAllUser } from "@/services/user/user.service";
+import { getAllUser } from "@/services/user";
 
 interface Tutor {
   id: string;

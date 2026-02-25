@@ -1,6 +1,6 @@
 "use client";
 
-import { getStudentCount } from "@/services/user/user.service";
+import { getStudentCount } from "@/services/user";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";

@@ -8,7 +8,9 @@ const TutorCard = ({ tutor }: { tutor: ITutorResponse }) => {
     <div className="bg-white border border-slate-100 rounded-2xl p-5 hover:shadow-xl transition-all group">
       <div className="flex gap-5">
         <Image
-          src={tutor?.image || `https://ui-avatars.com/api/?name=${tutor?.name}`}
+          src={
+            tutor?.image || `https://ui-avatars.com/api/?name=${tutor?.name}`
+          }
           alt={tutor?.name}
           width={96}
           height={96}
@@ -33,7 +35,7 @@ const TutorCard = ({ tutor }: { tutor: ITutorResponse }) => {
               <span className="text-slate-400 font-normal text-xs">/hr</span>
             </div>
             <Link
-              href={`/tutors/${tutor?.id}`}
+              href={`/tutors/${tutor?.tutorProfile?.id}`}
               className="ml-auto text-xs font-bold bg-slate-900 text-white px-4 py-2 rounded-xl hover:bg-blue-600 transition-colors"
             >
               View Profile

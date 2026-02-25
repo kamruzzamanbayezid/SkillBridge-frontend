@@ -1,6 +1,6 @@
 "use client"; // "use client" দিতে ভুলবেন না যেহেতু useEffect আছে
 
-import { getStudentCount } from "@/services/user/user.service";
+import { getStudentCount } from "@/services/user";
 import { useEffect, useState } from "react";
 
 const SuccessStats = () => {

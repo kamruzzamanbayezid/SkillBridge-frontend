@@ -15,6 +15,18 @@ export const getTutors = async (params: ITutorParams) => {
     },
   );
   const data = await res.json();
+  return data.data;
+};
+
+export const getSingleTutor = async (id: string) => {
+  console.log({ id });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/tutors/tutor-profile/${id}`,
+    {
+      cache: "no-store",
+    },
+  );
+  const data = await res.json();
   console.log({ data });
   return data.data;
 };
