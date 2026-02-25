@@ -19,7 +19,7 @@ interface Tutor {
 const FeaturedTutors = () => {
   const [tutors, setTutors] = useState<Tutor[]>([]);
   const [loading, setLoading] = useState(true);
-  console.log({ tutors });
+ 
   useEffect(() => {
     const fetchTutors = async () => {
       setLoading(true);

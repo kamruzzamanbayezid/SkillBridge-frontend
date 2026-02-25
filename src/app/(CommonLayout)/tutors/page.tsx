@@ -1,7 +1,9 @@
+import TutorBrowsePage from "@/components/modules/tutor/tutorPage";
+
 const TutorPage = () => {
   return (
     <div>
-      <h1>This is tutor page</h1>
+      <TutorBrowsePage />
     </div>
   );
 };
