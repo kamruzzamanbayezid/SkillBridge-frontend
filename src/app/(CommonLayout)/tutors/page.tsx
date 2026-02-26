@@ -16,7 +16,7 @@ const TutorPage = () => {
     price: "1000",
     rating: "0",
   });
-
+  
   useEffect(() => {
     const loadInitialData = async () => {
       const catData = await getCategories();

@@ -1,33 +1,30 @@
-export type ITutorResponse = {
+export interface TUTOR_CATEGORY {
   id: string;
   name: string;
-  email: string;
-  password?: string;
-  role: "TUTOR" | "STUDENT" | "ADMIN";
-  isBanned: boolean;
-  image: string | null;
+  bio: string;
+  averageRating: number;
   createdAt: string | Date;
-  updatedAt: string | Date;
-  tutorProfile: ITutorProfile;
-};
+}
 
-export type ITutorProfile = {
+export interface TUTOR_USER {
+  image: string;
+  name?: string; // যদি ডাটাতে থাকে
+  email?: string; // যদি ডাটাতে থাকে
+}
+
+export interface TUTOR_DATA {
   id: string;
   userId: string;
-  bio: string;
-  subject: string;
-  experienceYears: number;
-  hourlyRate: string | number;
-  averageRating: string | number;
-  reviewCount: number;
   categoryId: string;
+  subjects: string;
+  experienceYears: number;
+  hourlyRate: number;
+  reviewCount: number;
+  averageRating: number; // মেইন অবজেক্টেও যদি থাকে
   createdAt: string | Date;
   updatedAt: string | Date;
-  category: ICategory;
-};
 
-export type ICategory = {
-  id: string;
-  name: string;
-  createdAt: string | Date;
-};
+  // Relations
+  category: TUTOR_CATEGORY;
+  user: TUTOR_USER;
+}

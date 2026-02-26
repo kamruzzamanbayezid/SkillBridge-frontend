@@ -9,7 +9,7 @@ export const getTutors = async (params: ITutorParams) => {
   const query = new URLSearchParams(params).toString();
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/users?${query}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/tutors?${query}`,
     {
       cache: "no-store",
     },
