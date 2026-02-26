@@ -115,6 +115,29 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+.overflow-y-auto {
+  scrollbar-width: thin;
+  scrollbar-color: #e2e8f0 transparent;
+}
+
+.overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background-color: #e2e8f0;
+  border-radius: 20px;
+  border: 1px solid transparent;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background-color: #cbd5e1;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

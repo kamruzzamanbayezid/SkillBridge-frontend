@@ -1,6 +1,24 @@
 import { toast } from "sonner";
 
-export const getAllUser = async (role: string) => {
+export const  getAllUsers= async () => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/users`,
+      {
+        cache: "no-store",
+      },
+    );
+    const result = await res.json();
+    return result.data;
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Failed to fetch users";
+    toast.error(errorMessage);
+    return 0;
+  }
+};
+
+export const  getUserByRole= async (role: string) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/users/by-role?role=${role}`,

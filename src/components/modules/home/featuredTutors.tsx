@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { USER_ROLE } from "@/types/user";
-import { getAllUser } from "@/services/user";
+import { getUserByRole } from "@/services/user";
 
 interface Tutor {
   id: string;
@@ -19,11 +19,11 @@ interface Tutor {
 const FeaturedTutors = () => {
   const [tutors, setTutors] = useState<Tutor[]>([]);
   const [loading, setLoading] = useState(true);
- 
+
   useEffect(() => {
     const fetchTutors = async () => {
       setLoading(true);
-      const data = await getAllUser(USER_ROLE.TUTOR);
+      const data = await getUserByRole(USER_ROLE.TUTOR);
       setTutors(data?.slice(0, 4));
       setLoading(false);
     };
