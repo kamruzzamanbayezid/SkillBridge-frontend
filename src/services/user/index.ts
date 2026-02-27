@@ -1,13 +1,21 @@
+"use server";
+
+import { cookies } from "next/headers";
 import { toast } from "sonner";
 
-export const  getAllUsers= async () => {
+export const getAllUsers = async () => {
+  const storeCookie = await cookies();
+  const token = storeCookie.get("token")?.value;
+
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/users`,
-      {
-        cache: "no-store",
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: token ? token : "",
       },
-    );
+      cache: "no-store",
+    });
     const result = await res.json();
     return result.data;
   } catch (error) {
@@ -18,7 +26,7 @@ export const  getAllUsers= async () => {
   }
 };
 
-export const  getUserByRole= async (role: string) => {
+export const getUserByRole = async (role: string) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/users/by-role?role=${role}`,

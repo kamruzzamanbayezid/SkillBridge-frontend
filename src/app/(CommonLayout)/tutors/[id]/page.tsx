@@ -21,6 +21,7 @@ const TutorDetailsPage = async ({
 }) => {
   const { id } = await params;
   const tutorData = await getSingleTutor(id);
+  console.log("🚀 ~ TutorDetailsPage ~ tutorData:", tutorData);
 
   if (!tutorData) {
     return (
@@ -35,7 +36,7 @@ const TutorDetailsPage = async ({
   const {
     user,
     category,
-    subject,
+    subjects,
     bio,
     hourlyRate,
     averageRating,
@@ -92,9 +93,9 @@ const TutorDetailsPage = async ({
             </div>
             Back to Search
           </Link>
-          <button className="text-indigo-600 font-bold text-sm bg-indigo-50 px-5 py-2.5 rounded-2xl hover:bg-indigo-100 transition-colors">
-            Contact Instructor
-          </button>
+          <p className="text-indigo-600 font-bold text-sm bg-indigo-50 px-5 py-2.5 rounded-2xl hover:bg-indigo-100 transition-colors">
+            Instructor Details
+          </p>
         </div>
       </div>
 
@@ -131,7 +132,7 @@ const TutorDetailsPage = async ({
                   </h1>
                   <p className="text-slate-500 text-lg font-medium flex items-center justify-center md:justify-start gap-2">
                     <GraduationCap className="text-indigo-600" size={22} />{" "}
-                    Expert in {subject}
+                    Expert in {subjects}
                   </p>
                 </div>
               </div>
@@ -242,7 +243,7 @@ const TutorDetailsPage = async ({
                         ))}
                       </div>
                       <p className="text-slate-600 font-medium italic mb-6">
-                        "{rev.comment}"
+                        &quot;{rev.comment}&quot;
                       </p>
                       <div className="flex items-center gap-3 pt-4 border-t border-slate-50">
                         <div className="w-10 h-10 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-xs uppercase">
@@ -304,11 +305,7 @@ const TutorDetailsPage = async ({
                 </button>
               </div>
 
-              <div className="mt-8 pt-6 border-t border-slate-50 text-center">
-                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
-                  ⚡ Secure Payments via TutorHub
-                </p>
-              </div>
+              
             </div>
           </div>
         </div>

@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { Star, GraduationCap, DollarSign } from "lucide-react";
 import Link from "next/link";
-import { TUTOR_DATA } from "@/types/tutor.type";
+import { ITutor } from "@/types/tutor.type";
 
-const TutorCard = ({ tutor }: { tutor: TUTOR_DATA }) => {
-  console.log({ tutor });
+const TutorCard = ({ tutor }: { tutor: ITutor }) => {       
+
   return (
     <div className="bg-white border border-slate-100 rounded-2xl p-5 hover:shadow-xl transition-all group">
       <div className="flex gap-5">

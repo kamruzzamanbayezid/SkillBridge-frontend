@@ -1,18 +1,51 @@
-export interface TUTOR_CATEGORY {
+export type ITutorResponse = {
+  id: string;
+  name: string;
+  email: string;
+  password?: string;
+  role: "TUTOR" | "STUDENT" | "ADMIN";
+  isBanned: boolean;
+  image: string | null;
+  createdAt: string | Date;
+  updatedAt: string | Date;
+  tutorProfile: ITutorProfile;
+};
+
+export type ITutorProfile = {
+  id: string;
+  userId: string;
+  bio: string;
+  subject: string;
+  experienceYears: number;
+  hourlyRate: string | number;
+  averageRating: string | number;
+  reviewCount: number;
+  categoryId: string;
+  createdAt: string | Date;
+  updatedAt: string | Date;
+  category: ICategory;
+};
+
+export type ICategory = {
+  id: string;
+  name: string;
+  createdAt: string | Date;
+};
+
+export interface ITutorCategory {
   id: string;
   name: string;
   bio: string;
   averageRating: number;
-  createdAt: string | Date;
+  createdAt: string;
 }
 
-export interface TUTOR_USER {
+export interface ITutorUser {
   image: string;
-  name?: string; // যদি ডাটাতে থাকে
-  email?: string; // যদি ডাটাতে থাকে
+  name: string;
 }
 
-export interface TUTOR_DATA {
+export interface ITutor {
   id: string;
   userId: string;
   categoryId: string;
@@ -20,11 +53,18 @@ export interface TUTOR_DATA {
   experienceYears: number;
   hourlyRate: number;
   reviewCount: number;
-  averageRating: number; // মেইন অবজেক্টেও যদি থাকে
-  createdAt: string | Date;
-  updatedAt: string | Date;
-
-  // Relations
-  category: TUTOR_CATEGORY;
-  user: TUTOR_USER;
+  averageRating: number;
+  createdAt: string;
+  updatedAt: string;
+  category: {
+    id: string;
+    name: string;
+    bio: string;
+    averageRating: number;
+    createdAt: string;
+  };
+  user: {
+    image: string;
+    name: string;
+  };
 }

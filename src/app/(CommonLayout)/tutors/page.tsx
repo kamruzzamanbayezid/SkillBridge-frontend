@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Search, Filter } from "lucide-react";
 import { getCategories, getTutors } from "@/services/tutor";
 import TutorCard from "@/components/modules/tutor/tutorCard";
-import { ICategory, ITutorResponse } from "@/types/tutor.type";
+import { ICategory, ITutor } from "@/types/tutor.type";
 
 const TutorPage = () => {
   const [tutors, setTutors] = useState([]);
@@ -16,7 +16,7 @@ const TutorPage = () => {
     price: "1000",
     rating: "0",
   });
-  
+
   useEffect(() => {
     const loadInitialData = async () => {
       const catData = await getCategories();
@@ -149,7 +149,7 @@ const TutorPage = () => {
                 </div>
               ) : tutors?.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {tutors?.map((tutor: ITutorResponse) => (
+                  {tutors?.map((tutor: ITutor) => (
                     <TutorCard key={tutor?.id} tutor={tutor} />
                   ))}
                 </div>

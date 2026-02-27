@@ -8,10 +8,12 @@ import { getAllUsers } from "@/services/user";
 
 export default function ManageUsers() {
   const [users, setUsers] = useState<USER_DATA[]>([]);
+  console.log("🚀 ~ ManageUsers ~ users:", users)
 
   useEffect(() => {
     const fetchUsers = async () => {
       const userData = await getAllUsers();
+      console.log("🚀 ~ fetchUsers ~ userData:", userData)
       setUsers(userData);
     };
     fetchUsers();
