@@ -2,9 +2,9 @@
 
 import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
+import { toast } from "sonner";
 
 export const loginUser = async (userData: Record<string, unknown>) => {
-  console.log({ userData });
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, {
       method: "POST",
@@ -21,7 +21,10 @@ export const loginUser = async (userData: Record<string, unknown>) => {
     }
     return result;
   } catch (error) {
-    console.log(error);
+    const errorMessage =
+      error instanceof Error ? error.message : "Failed to login user";
+    toast.error(errorMessage);
+    return 0;
   }
 };
 

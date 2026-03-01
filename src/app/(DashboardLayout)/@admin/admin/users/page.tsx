@@ -4,23 +4,75 @@ import React, { useEffect, useState } from "react";
 import { UserX, UserCheck, Mail, Shield } from "lucide-react";
 import Image from "next/image";
 import { USER_DATA } from "@/types/user";
-import { getAllUsers } from "@/services/user";
+import { getAllUsers, updateUserStatus } from "@/services/user";
+import Swal from "sweetalert2";
 
 export default function ManageUsers() {
   const [users, setUsers] = useState<USER_DATA[]>([]);
-  console.log("🚀 ~ ManageUsers ~ users:", users)
 
   useEffect(() => {
     const fetchUsers = async () => {
       const userData = await getAllUsers();
-      console.log("🚀 ~ fetchUsers ~ userData:", userData)
       setUsers(userData);
     };
     fetchUsers();
   }, []);
 
+  const handleManageUser = async (id: string, isBanned: boolean) => {
+    const result = await Swal.fire({
+      title: isBanned ? "Ban this user?" : "Unban this user?",
+      text: isBanned
+        ? "This user will no longer be able to log in or access their profile."
+        : "The user will regain access to all features.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: isBanned ? "#e11d48" : "#10b981",
+      cancelButtonColor: "#64748b",
+      confirmButtonText: isBanned ? "Yes, Ban User" : "Yes, Unban User",
+      cancelButtonText: "Cancel",
+      background: "#ffffff",
+      customClass: {
+        title: "text-lg font-black text-slate-900",
+        confirmButton: "rounded-xl px-4 py-2 text-sm font-bold",
+        cancelButton: "rounded-xl px-4 py-2 text-sm font-bold",
+      },
+    });
 
+    if (result.isConfirmed) {
+      const previousUsers = [...users];
 
+      try {
+        setUsers((prev) =>
+          prev.map((user) =>
+            user.id === id ? { ...user, isBanned: isBanned } : user,
+          ),
+        );
+
+        const res = await updateUserStatus(id, isBanned);
+
+        if (res.success) {
+          Swal.fire({
+            title: isBanned ? "Banned!" : "Unbanned!",
+            text: `User has been ${isBanned ? "banned" : "unbanned"} successfully.`,
+            icon: "success",
+            timer: 1500,
+            showConfirmButton: false,
+          });
+        } else {
+          throw new Error(res.message);
+        }
+      } catch (error) {
+        
+        setUsers(previousUsers);
+        Swal.fire({
+          title: "Error!",
+          text:
+            error instanceof Error ? error.message : "Something went wrong.",
+          icon: "error",
+        });
+      }
+    }
+  };
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -109,7 +161,9 @@ export default function ManageUsers() {
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
                       <button
-                        
+                        onClick={() => {
+                          handleManageUser(user?.id, !user?.isBanned);
+                        }}
                         className={`p-2 rounded-lg transition-colors ${
                           user?.isBanned
                             ? "text-emerald-600 hover:bg-emerald-50"

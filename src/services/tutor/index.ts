@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 type ITutorParams = {
   search: string;
   categoryId: string;
@@ -8,14 +10,21 @@ type ITutorParams = {
 export const getTutors = async (params: ITutorParams) => {
   const query = new URLSearchParams(params).toString();
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/tutors?${query}`,
-    {
-      cache: "no-store",
-    },
-  );
-  const data = await res.json();
-  return data.data;
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/tutors?${query}`,
+      {
+        cache: "no-store",
+      },
+    );
+    const data = await res.json();
+    return data.data;
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Failed to tutors";
+    toast.error(errorMessage);
+    return 0;
+  }
 };
 
 export const getSingleTutor = async (id: string) => {
