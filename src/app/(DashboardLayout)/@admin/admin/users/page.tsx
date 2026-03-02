@@ -49,7 +49,6 @@ export default function ManageUsers() {
         );
 
         const res = await updateUserStatus(id, isBanned);
-
         if (res.success) {
           Swal.fire({
             title: isBanned ? "Banned!" : "Unbanned!",

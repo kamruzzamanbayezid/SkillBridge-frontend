@@ -63,7 +63,6 @@ export const getStudentCount = async () => {
 };
 
 export const updateUserStatus = async (id: string, isBanned: boolean) => {
-  console.log("🚀 ~ updateUserStatus :", id, isBanned);
 
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
@@ -83,9 +82,8 @@ export const updateUserStatus = async (id: string, isBanned: boolean) => {
     );
 
     const result = await res.json();
-    console.log("🚀 ~ updateUserStatus ~ result :", result);
 
-    return result?.data;
+    return result;
   } catch (error) {
     const errorMessage =
       error instanceof Error ? error.message : "Failed to update";
