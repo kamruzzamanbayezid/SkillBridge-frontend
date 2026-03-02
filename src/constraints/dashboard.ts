@@ -1,4 +1,4 @@
-import { BarChart2, CheckCircle } from "lucide-react";
+import { ChartBarStackedIcon, CheckCircle } from "lucide-react";
 
 // constants/dashboard.ts
 import {
@@ -21,7 +21,11 @@ export const menuItems = {
       href: "/dashboard/admin/approvals",
       icon: CheckCircle,
     },
-    { name: "Platform Stats", href: "/dashboard/admin/stats", icon: BarChart2 },
+    {
+      name: "Manage Categories",
+      href: "/admin/categories",
+      icon: ChartBarStackedIcon,
+    },
   ],
   TUTOR: [
     { name: "My Profile", href: "/dashboard/tutor", icon: UserCircle },

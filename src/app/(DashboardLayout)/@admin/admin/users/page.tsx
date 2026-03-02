@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { UserX, UserCheck, Mail, Shield } from "lucide-react";
 import Image from "next/image";
 import { USER_DATA } from "@/types/user";
@@ -61,7 +61,6 @@ export default function ManageUsers() {
           throw new Error(res.message);
         }
       } catch (error) {
-        
         setUsers(previousUsers);
         Swal.fire({
           title: "Error!",
