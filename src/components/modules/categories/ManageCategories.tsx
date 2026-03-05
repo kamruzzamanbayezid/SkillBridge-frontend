@@ -3,21 +3,13 @@
 import React, { useEffect, useState } from "react";
 import { Layers, Trash2, Edit, Plus, Users } from "lucide-react";
 
-import Swal from "sweetalert2";
 import { allCategory } from "@/services/category";
 import { ICategoryData } from "@/types/category.type";
 import AddCategoryModal from "./AddCategoryModal";
 
 export default function ManageCategories() {
   const [categories, setCategories] = useState<ICategoryData[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false); // মডাল কন্ট্রোল স্টেট
-
-  // নতুন ক্যাটাগরি লিস্টে যোগ করা
-  const handleAddSuccess = (newCat: ICategoryData) => {
-    // এপিআই থেকে আসা নতুন ক্যাটাগরিতে _count ডিফল্টভাবে ০ সেট করে দিচ্ছি
-    const formattedCat = { ...newCat, _count: { tutors: 0 } };
-    setCategories((prev) => [formattedCat, ...prev]);
-  };
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,25 +19,30 @@ export default function ManageCategories() {
     fetchData();
   }, []);
 
-  const handleDelete = async (id: string) => {
-    const result = await Swal.fire({
-      title: "Are you sure?",
-      text: "You are about to delete this category.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#ef4444",
-      cancelButtonColor: "#64748b",
-      confirmButtonText: "Yes, delete it!",
-    });
-
-    if (result.isConfirmed) {
-      // const res = await deleteCategory(id);
-      // if (res.success) {
-      //   setCategories((prev) => prev.filter((cat) => cat.id !== id));
-      //   Swal.fire("Deleted!", "Category has been removed.", "success");
-      // }
-    }
+  const handleAddSuccess = (newCat: ICategoryData) => {
+    const formattedCat = { ...newCat, _count: { tutors: 0 } };
+    setCategories((prev) => [...prev, formattedCat]);
   };
+
+  //   const handleDelete = async (id: string) => {
+  //     const result = await Swal.fire({
+  //       title: "Are you sure?",
+  //       text: "You are about to delete this category.",
+  //       icon: "warning",
+  //       showCancelButton: true,
+  //       confirmButtonColor: "#ef4444",
+  //       cancelButtonColor: "#64748b",
+  //       confirmButtonText: "Yes, delete it!",
+  //     });
+
+  //     if (result.isConfirmed) {
+  //       // const res = await deleteCategory(id);
+  //       // if (res.success) {
+  //       //   setCategories((prev) => prev.filter((cat) => cat.id !== id));
+  //       //   Swal.fire("Deleted!", "Category has been removed.", "success");
+  //       // }
+  //     }
+  //   };
 
   return (
     <div className="space-y-6 p-6">
@@ -59,7 +56,7 @@ export default function ManageCategories() {
           </p>
         </div>
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => setIsAddModalOpen(true)}
           className="bg-slate-900 text-white px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 hover:bg-blue-600 transition-all"
         >
           <Plus size={18} /> Add New
@@ -123,15 +120,16 @@ export default function ManageCategories() {
                     </button>
                     <button
                       title="Delete Category"
-                      onClick={() => handleDelete(category?.id)}
+                      //     onClick={() => handleDelete(category?.id)}
                       className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
                     >
                       <Trash2 size={18} />
                     </button>
 
+                    {/* Modal */}
                     <AddCategoryModal
-                      isOpen={isModalOpen}
-                      onClose={() => setIsModalOpen(false)}
+                      isAddModalOpen={isAddModalOpen}
+                      onClose={() => setIsAddModalOpen(false)}
                       onSuccess={handleAddSuccess}
                     />
                   </div>

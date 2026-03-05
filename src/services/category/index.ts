@@ -50,6 +50,5 @@ export const createCategory = async (name: string) => {
     const errorMessage =
       error instanceof Error ? error?.message : "Failed to fetch categories";
     toast.error(errorMessage);
-    return 0;
-  }
+    return 0;}
 };
