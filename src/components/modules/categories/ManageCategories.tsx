@@ -3,13 +3,18 @@
 import React, { useEffect, useState } from "react";
 import { Layers, Trash2, Edit, Plus, Users } from "lucide-react";
 
-import { allCategory } from "@/services/category";
+import { allCategory, deleteCategory } from "@/services/category";
 import { ICategoryData } from "@/types/category.type";
 import AddCategoryModal from "./AddCategoryModal";
+import Swal from "sweetalert2";
+import UpdateCategoryModal from "./UpdateCategoryModal";
 
 export default function ManageCategories() {
   const [categories, setCategories] = useState<ICategoryData[]>([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+  const [selectedCat, setSelectedCat] = useState<ICategoryData | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,25 +29,34 @@ export default function ManageCategories() {
     setCategories((prev) => [...prev, formattedCat]);
   };
 
-  //   const handleDelete = async (id: string) => {
-  //     const result = await Swal.fire({
-  //       title: "Are you sure?",
-  //       text: "You are about to delete this category.",
-  //       icon: "warning",
-  //       showCancelButton: true,
-  //       confirmButtonColor: "#ef4444",
-  //       cancelButtonColor: "#64748b",
-  //       confirmButtonText: "Yes, delete it!",
-  //     });
+  const handleEditSuccess = (newUpdatedCat: ICategoryData) => {
+    const newCategories = categories?.map((category) =>
+      category?.id === newUpdatedCat?.id
+        ? { ...category, name: newUpdatedCat?.name }
+        : category,
+    );
+    setCategories(newCategories);
+  };
 
-  //     if (result.isConfirmed) {
-  //       // const res = await deleteCategory(id);
-  //       // if (res.success) {
-  //       //   setCategories((prev) => prev.filter((cat) => cat.id !== id));
-  //       //   Swal.fire("Deleted!", "Category has been removed.", "success");
-  //       // }
-  //     }
-  //   };
+  const handleDeleteCategory = async (id: string) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You are about to delete this category.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ef4444",
+      cancelButtonColor: "#64748b",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (result.isConfirmed) {
+      const res = await deleteCategory(id);
+      if (res.success) {
+        setCategories((prev) => prev.filter((cat) => cat.id !== id));
+        Swal.fire("Deleted!", "Category has been removed.", "success");
+      }
+    }
+  };
 
   return (
     <div className="space-y-6 p-6">
@@ -113,6 +127,10 @@ export default function ManageCategories() {
                 <td className="px-6 py-4 text-right">
                   <div className="flex justify-end gap-2">
                     <button
+                      onClick={() => {
+                        setSelectedCat(category);
+                        setIsEditModalOpen(true);
+                      }}
                       title="Edit Category"
                       className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
                     >
@@ -120,17 +138,25 @@ export default function ManageCategories() {
                     </button>
                     <button
                       title="Delete Category"
-                      //     onClick={() => handleDelete(category?.id)}
+                      onClick={() => handleDeleteCategory(category?.id)}
                       className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
                     >
                       <Trash2 size={18} />
                     </button>
 
-                    {/* Modal */}
+                    {/* Add category Modal */}
                     <AddCategoryModal
                       isAddModalOpen={isAddModalOpen}
                       onClose={() => setIsAddModalOpen(false)}
                       onSuccess={handleAddSuccess}
+                    />
+
+                    {/* Update category modal */}
+                    <UpdateCategoryModal
+                      isEditModalOpen={isEditModalOpen}
+                      onClose={() => setIsEditModalOpen(false)}
+                      onSuccess={handleEditSuccess}
+                      categoryData={selectedCat}
                     />
                   </div>
                 </td>

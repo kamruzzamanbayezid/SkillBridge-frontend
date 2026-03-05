@@ -48,7 +48,61 @@ export const createCategory = async (name: string) => {
     return result;
   } catch (error) {
     const errorMessage =
-      error instanceof Error ? error?.message : "Failed to fetch categories";
+      error instanceof Error ? error?.message : "Failed to create category!";
     toast.error(errorMessage);
-    return 0;}
+    return 0;
+  }
+};
+
+export const deleteCategory = async (id: string) => {
+  const storeCookie = await cookies();
+  const token = storeCookie.get("token")?.value;
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/categories/delete-category/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: token ? token : "",
+        },
+      },
+    );
+
+    const result = await res.json();
+    return result;
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error?.message : "Failed to delete category!";
+    toast.error(errorMessage);
+    return 0;
+  }
+};
+
+export const updateCategory = async (id: string, name: string) => {
+  const storeCookie = await cookies();
+  const token = storeCookie.get("token")?.value;
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/categories/update-category/${id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: token ? token : "",
+        },
+        body: JSON.stringify({ name }),
+      },
+    );
+
+    const result = await res.json();
+    return result;
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error?.message : "Failed to update category!";
+    toast.error(errorMessage);
+    return 0;
+  }
 };
