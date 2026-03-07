@@ -29,7 +29,7 @@ export const menuItems = {
   ],
   TUTOR: [
     { name: "My Profile", href: "/dashboard/tutor", icon: UserCircle },
-    { name: "My Slots", href: "/dashboard/tutor/slots", icon: Calendar },
+    { name: "My Slots", href: "/tutor/slots", icon: Calendar },
     {
       name: "Active Bookings",
       href: "/dashboard/tutor/bookings",

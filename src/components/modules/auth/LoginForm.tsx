@@ -47,7 +47,7 @@ export function LoginForm() {
   async function onSubmit(data: z.infer<typeof formSchema>) {
     try {
       const res = await loginUser(data);
-      console.log({ res });
+      
       if (res.success) {
         toast.success(res.message);
         router.push("/");

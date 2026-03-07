@@ -37,9 +37,17 @@ export default function DashboardLayout({
   };
 
   const userRole = user?.role;
-  const currentMenu = userRole? menuItems[userRole] : [];
+  const currentMenu = userRole ? menuItems[userRole] : [];
   return (
     <div className="min-h-screen bg-slate-50 flex">
+      {/* --- Overlay for Mobile --- */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 lg:hidden transition-opacity"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* --- Sidebar for Desktop --- */}
       <aside
         className={`
@@ -48,25 +56,33 @@ export default function DashboardLayout({
       `}
       >
         <div className="h-full flex flex-col p-6">
-          <div className="flex items-center gap-3 mb-10 px-2">
+          <div className="flex items-center justify-between mb-10 px-2">
+            
             <Link href="/" className="flex items-center gap-2 group">
               <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200 group-hover:rotate-12 transition-transform">
                 <span className="text-white font-bold text-xl">S</span>
               </div>
               <span className="text-2xl font-bold text-white">SkillBridge</span>
             </Link>
+
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="lg:hidden p-2 text-slate-400 hover:text-white transition-colors"
+            >
+              <X size={24} />
+            </button>
           </div>
 
           <nav className="flex-1 space-y-2">
             <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest px-2 mb-4">
               {userRole} Menu
             </p>
-            {currentMenu.map((item) => {
-              const isActive = pathname === item.href;
+            {currentMenu?.map((item) => {
+              const isActive = pathname === item?.href;
               return (
                 <Link
-                  key={item.name}
-                  href={item.href}
+                  key={item?.name}
+                  href={item?.href}
                   className={`flex items-center gap-3 px-4 py-3.5 rounded-2xl font-bold transition-all ${
                     isActive
                       ? "bg-indigo-600 text-white shadow-lg shadow-indigo-900/20"
@@ -74,7 +90,7 @@ export default function DashboardLayout({
                   }`}
                 >
                   <item.icon size={20} />
-                  {item.name}
+                  {item?.name}
                 </Link>
               );
             })}
