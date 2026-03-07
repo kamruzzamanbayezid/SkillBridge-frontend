@@ -6,17 +6,23 @@ import Swal from "sweetalert2";
 import { deleteSlot, getTutorSlots } from "@/services/slots";
 import { ISlot } from "@/types/slot.type";
 import { toast } from "sonner";
+import AddSlotModal from "@/components/modules/slots/AddSlotModal";
 
 export default function MySlots() {
   const [slots, setSlots] = useState<ISlot[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchSlots = async () => {
       const res = await getTutorSlots();
-      setSlots(res.data);
+      setSlots(res?.data);
     };
     fetchSlots();
   }, []);
+
+  const handleAddSuccess = (newSlot: ISlot) => {
+    setSlots([newSlot, ...slots]);
+  };
 
   const handleDelete = async (id: string, status: string) => {
     if (status !== "AVAILABLE") {
@@ -74,8 +80,8 @@ export default function MySlots() {
           </p>
         </div>
         <button
-          //     onClick={() => setIsModalOpen(true)}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 transition-all shadow-md shadow-indigo-100"
+          onClick={() => setIsModalOpen(true)}
+          className="bg-indigo-600 hover:bg-indigo-700 text-white transition-all shadow-md shadow-indigo-100 px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 "
         >
           <Plus size={18} /> Create New Slot
         </button>
@@ -152,6 +158,13 @@ export default function MySlots() {
           </div>
         )}
       </div>
+
+      {/* add modal */}
+      <AddSlotModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={handleAddSuccess}
+      />
     </div>
   );
 }

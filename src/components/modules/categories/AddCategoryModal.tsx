@@ -89,7 +89,7 @@ export default function AddCategoryModal({
             </button>
             <button
               type="submit"
-              className="px-6 py-2 text-sm font-bold bg-slate-900 text-white rounded-xl hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2"
+              className="bg-indigo-600 hover:bg-indigo-700 text-white transition-all shadow-md shadow-indigo-100 px-6 py-2 text-sm font-bold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
               {isSubmitting ? (
                 <Loader2 size={16} className="animate-spin" />

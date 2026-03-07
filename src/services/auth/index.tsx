@@ -40,6 +40,28 @@ export const getUser = async () => {
   }
 };
 
+export const getCurrentUser = async () => {
+  const storeCookie = await cookies();
+  const token = storeCookie?.get("token")?.value;
+
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/me`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: token ? token : "",
+      },
+    });
+    const result = await res.json();
+    return result;
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Failed to fetch current user!";
+    toast.error(errorMessage);
+    return 0;
+  }
+};
+
 export const UserLogOut = async () => {
   const storeCookie = await cookies();
   storeCookie.delete("token");
