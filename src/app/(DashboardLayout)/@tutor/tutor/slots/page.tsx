@@ -21,7 +21,7 @@ export default function MySlots() {
   }, []);
 
   const handleAddSuccess = (newSlot: ISlot) => {
-    setSlots([newSlot, ...slots]);
+    setSlots([...slots, newSlot]);
   };
 
   const handleDelete = async (id: string, status: string) => {
@@ -117,6 +117,7 @@ export default function MySlots() {
                   {new Date(slot?.startTime).toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
+                    hour12: true,
                   })}{" "}
                   -{" "}
                   {new Date(slot?.endTime).toLocaleTimeString([], {

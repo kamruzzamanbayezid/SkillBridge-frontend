@@ -1,6 +1,5 @@
 "use server";
 
-import { ISlot } from "@/types/slot.type";
 import { cookies } from "next/headers";
 import { toast } from "sonner";
 
@@ -12,7 +11,8 @@ export const createTutorSlot = async (payload: {
 }) => {
   const storeCookie = await cookies();
   const token = storeCookie.get("token")?.value;
-  
+
+
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/slots/create-slot`,
@@ -34,7 +34,7 @@ export const createTutorSlot = async (payload: {
     toast.error(errorMessage);
     return 0;
   }
-};
+};;
 
 export const getTutorSlots = async () => {
   const storeCookie = await cookies();
