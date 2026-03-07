@@ -3,12 +3,13 @@
 import React, { useEffect, useState } from "react";
 import { Plus, Trash2, Calendar, Clock, Tag } from "lucide-react";
 import Swal from "sweetalert2";
-import { getTutorSlots } from "@/services/slots";
+import { deleteSlot, getTutorSlots } from "@/services/slots";
 import { ISlot } from "@/types/slot.type";
+import { toast } from "sonner";
 
 export default function MySlots() {
   const [slots, setSlots] = useState<ISlot[]>([]);
-  
+
   useEffect(() => {
     const fetchSlots = async () => {
       const res = await getTutorSlots();
@@ -18,29 +19,45 @@ export default function MySlots() {
   }, []);
 
   const handleDelete = async (id: string, status: string) => {
-    if (status === "BOOKED") {
-      return Swal.fire(
-        "Action Denied",
-        "You cannot delete a booked slot!",
-        "error",
-      );
+    if (status !== "AVAILABLE") {
+      let message = "";
+      if (status === "BOOKED") {
+        message =
+          "You cannot delete a booked slot! Please cancel the booking first.";
+      } else if (status === "COMPLETED") {
+        message = "You cannot delete a completed session record.";
+      }
+
+      return Swal.fire({
+        title: "Action Denied",
+        text: message,
+        icon: "error",
+        confirmButtonColor: "#6366f1",
+      });
     }
 
     const result = await Swal.fire({
-      title: "Delete Slot?",
-      text: "This action cannot be undone.",
+      title: "Are you sure?",
+      text: "Do you want to delete this available slot?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#ef4444",
-      confirmButtonText: "Yes, delete",
+      cancelButtonColor: "#64748b",
+      confirmButtonText: "Yes, delete it!",
     });
 
     if (result.isConfirmed) {
-      // const res = await deleteSlot(id);
-      // if (res.success) {
-      //   setSlots((prev) => prev.filter((slot) => slot.id !== id));
-      //   toast.success("Slot deleted successfully");
-      // }
+      try {
+        const res = await deleteSlot(id);
+        if (res.success) {
+          setSlots((prev) => prev?.filter((p) => p.id !== id));
+          toast.success(res?.message);
+        }
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error ? error?.message : "Failed to delete slot";
+        toast.error(errorMessage);
+      }
     }
   };
 
